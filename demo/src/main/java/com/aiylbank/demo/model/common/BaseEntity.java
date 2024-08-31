@@ -1,11 +1,15 @@
 package com.aiylbank.demo.model.common;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @MappedSuperclass
 @DynamicUpdate
 public abstract class BaseEntity implements Serializable {
