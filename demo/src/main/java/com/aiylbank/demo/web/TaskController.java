@@ -6,10 +6,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/service/tasks")
 public class TaskController extends BaseEntityController {
@@ -17,7 +16,7 @@ public class TaskController extends BaseEntityController {
     private final TaskService taskService;
 
     @PostMapping(value = "/find-by-id/{id}")
-    public ResponseEntity<?> updateFromBi(@PathVariable @Min(0) Long id) {
+    public ResponseEntity<?> updateFromBi(@PathVariable @Min(value = 0, message = "id must not be less then 0 !") Long id) {
         return ResponseEntity.ok(taskService.findById(id));
     }
 
@@ -26,19 +25,19 @@ public class TaskController extends BaseEntityController {
         return ResponseEntity.ok(taskService.findAll());
     }
 
-    @DeleteMapping(value = "/delete")
-    public ResponseEntity<?> delete(@PathVariable @Min(0) Long id) {
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable @Min(value = 0, message = "id must not be less then 0 !") Long id) {
         return ResponseEntity.ok(taskService.delete(id));
     }
 
     @PostMapping(value = "/update/{id}")
-    public ResponseEntity<?> update(@PathVariable @Min(0) Long id,
-                                    @RequestParam @NotBlank String description) {
+    public ResponseEntity<?> update(@PathVariable @Min(value = 0, message = "id must not be less then 0 !") Long id,
+                                    @RequestParam @NotBlank( message = "description must not be null or empty!") String description) {
         return ResponseEntity.ok(taskService.update(id, description));
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<?> save(@RequestParam @NotBlank String description) {
+    public ResponseEntity<?> save(@RequestParam @NotBlank(message = "description must not be null or empty!") String description) {
         return ResponseEntity.ok(taskService.save(description));
     }
 }
