@@ -3,7 +3,6 @@ package com.aiylbank.demo.web.common;
 import com.aiylbank.demo.web.common.exception.ExceptionResponse;
 import com.aiylbank.demo.web.common.exception.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,7 +18,7 @@ public class BaseEntityController {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse onNotFoundException(NotFoundException e) {
-        return new ExceptionResponse(HttpStatus.NOT_FOUND, e.getClass().getName(), e.getMessage());
+        return new ExceptionResponse(HttpStatus.NOT_FOUND, e.getClass().getSimpleName(), e.getMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -31,7 +30,7 @@ public class BaseEntityController {
                 .map(
                         violation -> new ExceptionResponse(
                                 HttpStatus.BAD_REQUEST,
-                                violation.getPropertyPath().toString(),
+                                e.getClass().getSimpleName(),
                                 violation.getMessage()
                         )
                 )
@@ -40,8 +39,8 @@ public class BaseEntityController {
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionResponse onException(ChangeSetPersister.NotFoundException e) {
-        return new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getClass().getName(), e.getMessage());
+    public ExceptionResponse onException(Throwable e) {
+        return new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getClass().getSimpleName(), e.getMessage());
     }
 
 }
