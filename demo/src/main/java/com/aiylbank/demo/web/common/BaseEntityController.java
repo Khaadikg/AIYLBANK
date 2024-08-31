@@ -1,21 +1,24 @@
 package com.aiylbank.demo.web.common;
 
 import com.aiylbank.demo.web.common.exception.ExceptionResponse;
+import com.aiylbank.demo.web.common.exception.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
 @Validated
+@RestControllerAdvice
 public class BaseEntityController {
 
-    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse onNotFoundException(ChangeSetPersister.NotFoundException e) {
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse onNotFoundException(NotFoundException e) {
         return new ExceptionResponse(HttpStatus.NOT_FOUND, e.getClass().getName(), e.getMessage());
     }
 

@@ -32,8 +32,16 @@ public abstract class BaseEntityService<T extends BaseEntity, D, I, S extends Cr
                 .toList();
     }
 
-    public List<D> delete(I id) {
-        getService().deleteById(id);
-        return findAll();
+    public String delete(I id) {
+        Optional<T> optional = getService().findById(id);
+
+        if (optional.isPresent()) {
+            T entity = optional.get();
+
+            getService().delete(entity);
+            return "Successfully deleted!";
+        } else {
+            throw new NotFoundException("Entity not found by id: " + id);
+        }
     }
 }

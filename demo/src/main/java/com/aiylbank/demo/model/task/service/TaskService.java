@@ -2,6 +2,7 @@ package com.aiylbank.demo.model.task.service;
 
 import com.aiylbank.demo.model.common.BaseEntityService;
 import com.aiylbank.demo.model.task.dao.TaskStorageService;
+import com.aiylbank.demo.model.task.entity.Status;
 import com.aiylbank.demo.model.task.entity.Task;
 import com.aiylbank.demo.model.task.service.dto.TaskDto;
 import com.aiylbank.demo.web.common.exception.NotFoundException;
@@ -30,7 +31,7 @@ public class TaskService extends BaseEntityService<Task, TaskDto, Long, TaskStor
 
         Task task = new Task();
         task.setDescription(description);
-
+        task.setStatus(Status.OPEN);
         return super.save(task);
     }
 

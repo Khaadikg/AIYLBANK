@@ -18,13 +18,13 @@ public abstract class BaseEntity implements Serializable {
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
-    protected Long id;
+    public Long id;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    protected LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 
     @PrePersist
     public void preSave() {
