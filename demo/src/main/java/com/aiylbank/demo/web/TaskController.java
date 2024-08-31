@@ -40,4 +40,9 @@ public class TaskController extends BaseEntityController {
     public ResponseEntity<?> save(@RequestParam @NotBlank(message = "description must not be null or empty!") String description) {
         return ResponseEntity.ok(taskService.save(description));
     }
+
+    @PostMapping(value = "/do-done/{id}")
+    public ResponseEntity<?> done(@PathVariable @Min(value = 0, message = "id must not be less then 0 !") Long id) {
+        return ResponseEntity.ok(taskService.done(id));
+    }
 }
