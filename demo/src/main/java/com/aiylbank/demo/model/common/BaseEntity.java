@@ -1,0 +1,39 @@
+package com.aiylbank.demo.model.common;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@MappedSuperclass
+@DynamicUpdate
+public abstract class BaseEntity implements Serializable {
+
+    @Id
+    @Column(
+            name = "id"
+    )
+
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
+    protected Long id;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void preSave() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+}
