@@ -37,9 +37,11 @@ public class TaskService extends BaseEntityService<Task, TaskDto, Long, TaskStor
 
     public String done(Long id) {
 
-        Optional<Task> task = service.findById(id);
-        if (task.isPresent()) {
-            task.get().setStatus(Status.DONE);
+        Optional<Task> optionalTask = service.findById(id);
+        if (optionalTask.isPresent()) {
+            Task task = optionalTask.get();
+            task.setStatus(Status.DONE);
+            service.save(task);
             return "Successfully done!";
         } else {
             throw new NotFoundException("Task not found by id: " + id);
